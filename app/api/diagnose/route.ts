@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { drawTarotCards } from '@/lib/tarot';
 import { getKyuseiResult } from '@/lib/kyusei';
 import { getSeimeiResult } from '@/lib/seimei';
+import { translateTarotCard } from '@/lib/tarot-ja';
 
 function getMockInterpretation(sei: string, mei: string, theme: string): string {
   return sei + mei + 'さん、あなたの' + theme + 'について3つの占いが語りかけています。タロットは今が変化の時であることを示し、九星気学はあなたの持つ内なる強さを後押ししています。姓名判断の総格が示す通り、あなたには人を引きつける力があります。まず小さな一歩を踏み出してみてください。きっと道は開けます。';
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: '必須項目が不足しています' }, { status: 400 });
     }
     const [year, month] = birthdate.split('-').map(Number);
-    const tarotCards = drawTarotCards(3);
+    const tarotCards = drawTarotCards(3).map(card => { const ja = translateTarotCard(card.name); return { ...card, name: ja.name, meaning_up: ja.meaning_up, meaning_rev: ja.meaning_rev }; });
     const kyusei = getKyuseiResult(year, month);
     const seimei = getSeimeiResult(sei, mei);
     let interpretation: string;

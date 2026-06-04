@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-type TarotCard = { name: string; reversed: boolean; meaning_up: string; meaning_rev: string; desc: string; };
+type TarotCard = { name: string; reversed: boolean; meaning_up: string; meaning_rev: string; desc: string; emoji?: string; };
 type KyuseiStar = { name: string; element: string; description: string; };
 type Result = {
   tarot: TarotCard[];
@@ -17,6 +17,11 @@ type Result = {
 };
 
 const TAROT_POSITIONS = ['過去', '現在', '未来'];
+
+function elementEmoji(element: string): string {
+  const map: Record<string, string> = { "水": "💧", "土": "🌍", "木": "🌿", "金": "✨", "火": "🔥" };
+  return map[element] ?? "⭐";
+}
 
 function luckColor(luck: string): string {
   if (luck === '大吉') return 'text-rose-600 font-bold';
@@ -65,7 +70,7 @@ export default function ResultPage() {
                 <span className="text-pink-400 text-xs mt-1 w-8 shrink-0">{TAROT_POSITIONS[i]}</span>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-gray-800 text-sm font-medium">{card.name}</span>
+                    <span className="text-xl mr-1">{card.emoji}</span><span className="text-gray-800 text-sm font-medium">{card.name}</span>
                     <span className={'text-xs px-2 py-0.5 rounded-full ' + (card.reversed ? 'bg-red-50 text-red-400 border border-red-200' : 'bg-pink-50 text-pink-500 border border-pink-200')}>
                       {card.reversed ? '逆位置' : '正位置'}
                     </span>
@@ -86,6 +91,7 @@ export default function ResultPage() {
             ].map(({ label, star }) => (
               <div key={label} className="bg-rose-50 rounded-xl p-3 border border-rose-100">
                 <p className="text-pink-400 text-xs mb-1">{label}</p>
+                <span className="text-2xl mb-1 block">{elementEmoji(star.element)}</span>
                 <p className="text-gray-800 font-bold text-sm">{star.name}</p>
                 <p className="text-gray-500 text-xs mt-1">{star.description}</p>
               </div>

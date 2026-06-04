@@ -1,4 +1,4 @@
-type CardJa={name:string;meaning_up:string;meaning_rev:string};
+type CardJa={name:string;meaning_up:string;meaning_rev:string;emoji:string};
 
 const TAROT_JA:Record<string,CardJa>={
   'The Fool': { name: '愚者', meaning_up: '新しい出発・無限の可能性', meaning_rev: '無謀・不注意・軽率' },
@@ -81,6 +81,40 @@ const TAROT_JA:Record<string,CardJa>={
   'King of Pentacles': { name: 'ペンタクルのキング', meaning_up: '繁栄・ビジネス・安定した成功', meaning_rev: '財産の喪失・頑固' },
 };
 
+function getEmoji(jaName:string):string{
+  const major:Record<string,string>={
+    '愚者':'🃏',
+    '魔術師':'✨',
+    '女教皇':'🌙',
+    '女帝':'🌸',
+    '皇帝':'👑',
+    '法王':'⛪',
+    '恋人':'💕',
+    '戦車':'⚡',
+    '力':'🦁',
+    '隠者':'🕯️',
+    '運命の輪':'🎡',
+    '正義':'⚖️',
+    '吊られた男':'🔄',
+    '死神':'🦋',
+    '節制':'🌈',
+    '悪魔':'🔗',
+    '塔':'🌩️',
+    '星':'⭐',
+    '月':'🌙',
+    '太陽':'☀️',
+    '審判':'🎺',
+    '世界':'🌍',
+  };
+  if(major[jaName])return major[jaName];
+  if(jaName.includes('ワンド'))return '🔥';
+  if(jaName.includes('カップ'))return '💧';
+  if(jaName.includes('ソード'))return '⚔️';
+  if(jaName.includes('ペンタクル'))return '🌿';
+  return '🔮';
+}
+
 export function translateTarotCard(name:string):CardJa{
-  return TAROT_JA[name]??{name,meaning_up:'（翻訳なし）',meaning_rev:'（翻訳なし）'};
+  const base=TAROT_JA[name]??{name,meaning_up:'（翻訳なし）',meaning_rev:'（翻訳なし）'};
+  return {...base,emoji:getEmoji(base.name)};
 }

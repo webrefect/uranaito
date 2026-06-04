@@ -1,6 +1,7 @@
-type CardJa={name:string;meaning_up:string;meaning_rev:string;emoji:string};
+type CardBase={name:string;meaning_up:string;meaning_rev:string};
+export type CardJa=CardBase&{emoji:string};
 
-const TAROT_JA:Record<string,CardJa>={
+const TAROT_JA:Record<string,CardBase>={
   'The Fool': { name: '愚者', meaning_up: '新しい出発・無限の可能性', meaning_rev: '無謀・不注意・軽率' },
   'The Magician': { name: '魔術師', meaning_up: '意志力・スキル・自信', meaning_rev: '操作・技術の悪用' },
   'The High Priestess': { name: '女教皇', meaning_up: '直感・神秘・内なる知恵', meaning_rev: '秘密・表面的な知識' },

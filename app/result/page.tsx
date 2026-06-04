@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-type TarotCard = { name: string; reversed: boolean; meaning_up: string; meaning_rev: string; desc: string; emoji?: string; };
+type TarotCard = { name: string; reversed: boolean; meaning_up: string; meaning_rev: string; desc: string; emoji?: string; name_short?: string; };
 type KyuseiStar = { name: string; element: string; description: string; };
 type Result = {
   tarot: TarotCard[];
@@ -70,7 +70,7 @@ export default function ResultPage() {
                 <span className="text-pink-400 text-xs mt-1 w-8 shrink-0">{TAROT_POSITIONS[i]}</span>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-xl mr-1">{card.emoji}</span><span className="text-gray-800 text-sm font-medium">{card.name}</span>
+                    {card.name_short&&(<img src={`/cards/${card.name_short}.jpg`} alt={card.name} onError={(e)=>{(e.target as HTMLImageElement).style.display="none";}} className={`w-10 h-16 object-cover rounded shadow-sm mr-2 shrink-0 ${card.reversed?"rotate-180":""}`} />)}<span className="text-xl mr-1">{card.emoji}</span><span className="text-gray-800 text-sm font-medium">{card.name}</span>
                     <span className={'text-xs px-2 py-0.5 rounded-full ' + (card.reversed ? 'bg-red-50 text-red-400 border border-red-200' : 'bg-pink-50 text-pink-500 border border-pink-200')}>
                       {card.reversed ? '逆位置' : '正位置'}
                     </span>

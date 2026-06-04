@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: '必須項目が不足しています' }, { status: 400 });
     }
     const [year, month] = birthdate.split('-').map(Number);
-    const tarotCards = drawTarotCards(3).map(card => { const ja = translateTarotCard(card.name); return { ...card, name: ja.name, meaning_up: ja.meaning_up, meaning_rev: ja.meaning_rev }; });
+    const tarotCards = drawTarotCards(3).map(card => { const ja = translateTarotCard(card.name); return { ...card, name: ja.name, meaning_up: ja.meaning_up, meaning_rev: ja.meaning_rev, emoji: ja.emoji }; });
     const kyusei = getKyuseiResult(year, month);
     const seimei = getSeimeiResult(sei, mei);
     let interpretation: string;
